@@ -288,7 +288,7 @@ int main() {
 
                 // Reset ball if it goes below the window
                 if (transforms[i].position.y > window.getSize().y) {
-                    transforms[i].position = sf::Vector2f(975.f, 925.f);
+                    transforms[i].position = sf::Vector2f(957.f,900.f);
                     velocities[i].speed = sf::Vector2f(400.f, -400.f);
 
                     // Reset the platform's position (assuming platform is the second entity)
