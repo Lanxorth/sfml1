@@ -1,7 +1,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include <memory>             // Include your brick header if needed
+#include <memory>             
 
 // Structures de base pour ECS
 struct Transform2D {
@@ -14,7 +14,7 @@ struct Velocity {
 };
 
 struct RenderComponent {
-    sf::Drawable* drawable;  // This can hold either an sf::Shape* or an sf::Sprite*
+    sf::Drawable* drawable;
 
     // Constructor for sf::Shape-based renderables (like sf::RectangleShape)
     RenderComponent(sf::Shape* shape) : drawable(shape) {}
@@ -71,13 +71,36 @@ void createEntityPlatform(std::vector<Transform2D>& transforms, std::vector<Velo
     spritePlatform->setTexture(texturePlatform);
     spritePlatform->setPosition(900.f, 950.f);
     RenderComponent platformRender{ spritePlatform };
-    
+
 
     transforms.push_back(platformTransform);
     velocities.push_back(platformVelocity);
     renderables.push_back(platformRender);
     behaviors.push_back(platformBehavior);
 
+}
+
+void removePlayer(std::vector<Transform2D>& transforms, std::vector<Velocity>& velocities,
+    std::vector<RenderComponent>& renderables, std::vector<Behavior>& behaviors) {
+    // Find the index of the ball (based on the Behavior type being Ball)
+    for (size_t i = 0; i < behaviors.size(); ++i) {
+        if (behaviors[i].type == Behavior::Ball) {
+            // Remove the ball from all ECS components
+            transforms.erase(transforms.begin() + i);
+            velocities.erase(velocities.begin() + i);
+            renderables.erase(renderables.begin() + i);
+            behaviors.erase(behaviors.begin() + i);
+        }
+    }
+    for (size_t i = 0; i < behaviors.size(); ++i) {
+        if (behaviors[i].type == Behavior::Platform) {
+            // Remove the platform from all ECS components
+            transforms.erase(transforms.begin() + i);
+            velocities.erase(velocities.begin() + i);
+            renderables.erase(renderables.begin() + i);
+            behaviors.erase(behaviors.begin() + i);
+        }
+    }
 }
 
 void createEntityBrick(std::vector<Transform2D>& transforms, std::vector<Velocity>& velocities,
@@ -174,32 +197,17 @@ int main() {
     sf::Clock clock;
 
     // Load background texture
-    sf::Texture texture;
-    if (!texture.loadFromFile("background.jpg")) {
-        return 0;
-    }
-
-    // Load brick texture
-    sf::Texture textureBrick;
-    if (!textureBrick.loadFromFile("Brick2.png")) {
-        std::cerr << "Error loading texture!" << std::endl;
+    sf::Texture texture, textureVictoire, textureBrick, textureBall, texturePlatform;
+    if (!texture.loadFromFile("background.jpg") ||
+        !textureVictoire.loadFromFile("Victoire.png") ||
+        !textureBrick.loadFromFile("Brick2.png") ||
+        !textureBall.loadFromFile("ball.png") ||
+        !texturePlatform.loadFromFile("paddle.png")) {
         return 0;
     }
 
     sf::Sprite sprite;
     sprite.setTexture(texture);
-
-    sf::Texture textureBall;
-    if (!textureBall.loadFromFile("ball.png")) {
-        std::cerr << "Error loading texture!" << std::endl;
-        return 0;
-    }
-
-    sf::Texture texturePlatform;
-    if (!texturePlatform.loadFromFile("paddle.png")) {
-        std::cerr << "Error loading texture!" << std::endl;
-        return 0;
-    }
 
     // ECS Components
     std::vector<Transform2D> transforms;
@@ -219,6 +227,8 @@ int main() {
 
     // Create a grid of bricks with fixed size
     createEntitiesBricksGrid(transforms, velocities, renderables, behaviors, 100, 100, 10, 16, 10, brickWidth, brickHeight, textureBrick);
+    bool gameWon = false;
+    bool Won = false;
 
     while (window.isOpen()) {
         float deltaTime = clock.restart().asSeconds();
@@ -288,7 +298,7 @@ int main() {
 
                 // Reset ball if it goes below the window
                 if (transforms[i].position.y > window.getSize().y) {
-                    transforms[i].position = sf::Vector2f(957.f,900.f);
+                    transforms[i].position = sf::Vector2f(957.f, 900.f);
                     velocities[i].speed = sf::Vector2f(400.f, -400.f);
 
                     // Reset the platform's position (assuming platform is the second entity)
@@ -297,6 +307,43 @@ int main() {
                     platformMoved = false;
                 }
             }
+        }
+
+        gameWon = true;
+        for (size_t i = 2; i < transforms.size(); ++i) {
+            if (behaviors[i].type == Behavior::Brick) {
+                gameWon = false;  // There are still bricks left
+                break;
+            }
+        }
+
+        // Check if the Enter key is pressed
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+            // Change background to victory texture
+            Won = true;
+
+            // Remove all bricks from ECS components
+            for (size_t i = 2; i < behaviors.size(); ++i) {
+                if (behaviors[i].type == Behavior::Brick) {
+                    // Remove the brick from all ECS components
+                    transforms.erase(transforms.begin() + i);
+                    velocities.erase(velocities.begin() + i);
+                    renderables.erase(renderables.begin() + i);
+                    behaviors.erase(behaviors.begin() + i);
+
+                    // Adjust index after removal since we've just erased an element
+                    --i;
+                }
+            }
+        }
+
+        // Change background if game is won
+        if (gameWon or Won) {
+            sprite.setTexture(textureVictoire); // Change background to victory texture
+            removePlayer(transforms, velocities, renderables, behaviors);
+        }
+        else {
+            sprite.setTexture(texture); // Otherwise use the regular background
         }
 
         // Update the position of shapes
