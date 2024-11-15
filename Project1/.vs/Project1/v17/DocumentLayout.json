@@ -1,0 +1,122 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Lynou\\source\\repos\\sfml1\\Project1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{777EA925-783E-4C7C-AD0B-325D94ED751E}|Project1\\Project1.vcxproj|C:\\Users\\Lynou\\source\\repos\\sfml1\\Project1\\Project1\\Components.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{777EA925-783E-4C7C-AD0B-325D94ED751E}|Project1\\Project1.vcxproj|solutionrelative:Project1\\Components.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{777EA925-783E-4C7C-AD0B-325D94ED751E}|Project1\\Project1.vcxproj|C:\\Users\\Lynou\\source\\repos\\sfml1\\Project1\\Project1\\Systems.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{777EA925-783E-4C7C-AD0B-325D94ED751E}|Project1\\Project1.vcxproj|solutionrelative:Project1\\Systems.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{777EA925-783E-4C7C-AD0B-325D94ED751E}|Project1\\Project1.vcxproj|C:\\Users\\Lynou\\source\\repos\\sfml1\\Project1\\Project1\\Systems.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{777EA925-783E-4C7C-AD0B-325D94ED751E}|Project1\\Project1.vcxproj|solutionrelative:Project1\\Systems.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{777EA925-783E-4C7C-AD0B-325D94ED751E}|Project1\\Project1.vcxproj|C:\\Users\\Lynou\\source\\repos\\sfml1\\Project1\\Project1\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{777EA925-783E-4C7C-AD0B-325D94ED751E}|Project1\\Project1.vcxproj|solutionrelative:Project1\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{777EA925-783E-4C7C-AD0B-325D94ED751E}|Project1\\Project1.vcxproj|C:\\Users\\Lynou\\source\\repos\\sfml1\\Project1\\Project1\\Entities.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{777EA925-783E-4C7C-AD0B-325D94ED751E}|Project1\\Project1.vcxproj|solutionrelative:Project1\\Entities.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{777EA925-783E-4C7C-AD0B-325D94ED751E}|Project1\\Project1.vcxproj|C:\\Users\\Lynou\\source\\repos\\sfml1\\Project1\\Project1\\Entities.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{777EA925-783E-4C7C-AD0B-325D94ED751E}|Project1\\Project1.vcxproj|solutionrelative:Project1\\Entities.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Entities.cpp",
+              "DocumentMoniker": "C:\\Users\\Lynou\\source\\repos\\sfml1\\Project1\\Project1\\Entities.cpp",
+              "RelativeDocumentMoniker": "Project1\\Entities.cpp",
+              "ToolTip": "C:\\Users\\Lynou\\source\\repos\\sfml1\\Project1\\Project1\\Entities.cpp",
+              "RelativeToolTip": "Project1\\Entities.cpp",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAFwAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-11-15T10:34:24.227Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Entities.h",
+              "DocumentMoniker": "C:\\Users\\Lynou\\source\\repos\\sfml1\\Project1\\Project1\\Entities.h",
+              "RelativeDocumentMoniker": "Project1\\Entities.h",
+              "ToolTip": "C:\\Users\\Lynou\\source\\repos\\sfml1\\Project1\\Project1\\Entities.h",
+              "RelativeToolTip": "Project1\\Entities.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABwAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-15T10:31:40.597Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Systems.cpp",
+              "DocumentMoniker": "C:\\Users\\Lynou\\source\\repos\\sfml1\\Project1\\Project1\\Systems.cpp",
+              "RelativeDocumentMoniker": "Project1\\Systems.cpp",
+              "ToolTip": "C:\\Users\\Lynou\\source\\repos\\sfml1\\Project1\\Project1\\Systems.cpp",
+              "RelativeToolTip": "Project1\\Systems.cpp",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAGMAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-11-15T10:31:15.41Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Systems.h",
+              "DocumentMoniker": "C:\\Users\\Lynou\\source\\repos\\sfml1\\Project1\\Project1\\Systems.h",
+              "RelativeDocumentMoniker": "Project1\\Systems.h",
+              "ToolTip": "C:\\Users\\Lynou\\source\\repos\\sfml1\\Project1\\Project1\\Systems.h",
+              "RelativeToolTip": "Project1\\Systems.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-15T10:30:04.948Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Components.h",
+              "DocumentMoniker": "C:\\Users\\Lynou\\source\\repos\\sfml1\\Project1\\Project1\\Components.h",
+              "RelativeDocumentMoniker": "Project1\\Components.h",
+              "ToolTip": "C:\\Users\\Lynou\\source\\repos\\sfml1\\Project1\\Project1\\Components.h",
+              "RelativeToolTip": "Project1\\Components.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAXAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-11-15T10:29:28.143Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "main.cpp",
+              "DocumentMoniker": "C:\\Users\\Lynou\\source\\repos\\sfml1\\Project1\\Project1\\main.cpp",
+              "RelativeDocumentMoniker": "Project1\\main.cpp",
+              "ToolTip": "C:\\Users\\Lynou\\source\\repos\\sfml1\\Project1\\Project1\\main.cpp",
+              "RelativeToolTip": "Project1\\main.cpp",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACcAAABhAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-11-15T09:51:28.775Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
