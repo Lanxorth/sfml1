@@ -1,200 +1,18 @@
-#include <iostream>
 #include <SFML/Graphics.hpp>
-#include <vector>
-#include <memory>             
-
-// Structures de base pour ECS
-struct Transform2D {
-    sf::Vector2f position;
-    sf::Vector2f size;
-};
-
-struct Velocity {
-    sf::Vector2f speed;
-};
-
-struct RenderComponent {
-    sf::Drawable* drawable;
-
-    // Constructor for sf::Shape-based renderables (like sf::RectangleShape)
-    RenderComponent(sf::Shape* shape) : drawable(shape) {}
-
-    // Constructor for sf::Sprite-based renderables
-    RenderComponent(sf::Sprite* sprite) : drawable(sprite) {}
-
-    // Getter function to access the drawable object
-    sf::Drawable* getDrawable() const {
-        return drawable;
-    }
-};
-
-struct Behavior {
-    enum Type { Ball, Platform, Brick } type;
-};
-
-
-
-// Fonctions des systèmes
-void renderSystem1(sf::RenderWindow& window, const std::vector<RenderComponent>& renderables) {
-    for (const auto& renderable : renderables) {
-        window.draw(*renderable.drawable);
-    }
-}
-
-void createEntityBall(std::vector<Transform2D>& transforms, std::vector<Velocity>& velocities,
-    std::vector<RenderComponent>& renderables, std::vector<Behavior>& behaviors, const sf::Texture& textureBall) {
-
-    // Create a ball
-    Transform2D ballTransform{ sf::Vector2f(957.f,900.f), sf::Vector2f(40.f, 40.f) };
-    Velocity ballVelocity{ sf::Vector2f(400.f, -400.f) };
-    Behavior ballBehavior{ Behavior::Ball };
-    sf::Sprite* spriteBall = new sf::Sprite();
-    spriteBall->setTexture(textureBall);
-    spriteBall->setPosition(975.f, 925.f);
-    RenderComponent ballRender{ spriteBall };
-
-    transforms.push_back(ballTransform);
-    velocities.push_back(ballVelocity);
-    renderables.push_back(ballRender);
-    behaviors.push_back(ballBehavior);
-
-}
-
-void createEntityPlatform(std::vector<Transform2D>& transforms, std::vector<Velocity>& velocities,
-    std::vector<RenderComponent>& renderables, std::vector<Behavior>& behaviors, const sf::Texture& texturePlatform) {
-
-    // Create a platform
-    Transform2D platformTransform{ sf::Vector2f(900.f, 950.f), sf::Vector2f(150.f, 30.f) };
-    Velocity platformVelocity{ sf::Vector2f(600.f, 0) };
-    Behavior platformBehavior{ Behavior::Platform };
-    sf::Sprite* spritePlatform = new sf::Sprite();
-    spritePlatform->setTexture(texturePlatform);
-    spritePlatform->setPosition(900.f, 950.f);
-    RenderComponent platformRender{ spritePlatform };
-
-
-    transforms.push_back(platformTransform);
-    velocities.push_back(platformVelocity);
-    renderables.push_back(platformRender);
-    behaviors.push_back(platformBehavior);
-
-}
-
-void removePlayer(std::vector<Transform2D>& transforms, std::vector<Velocity>& velocities,
-    std::vector<RenderComponent>& renderables, std::vector<Behavior>& behaviors) {
-    // Find the index of the ball (based on the Behavior type being Ball)
-    for (size_t i = 0; i < behaviors.size(); ++i) {
-        if (behaviors[i].type == Behavior::Ball) {
-            // Remove the ball from all ECS components
-            transforms.erase(transforms.begin() + i);
-            velocities.erase(velocities.begin() + i);
-            renderables.erase(renderables.begin() + i);
-            behaviors.erase(behaviors.begin() + i);
-        }
-    }
-    for (size_t i = 0; i < behaviors.size(); ++i) {
-        if (behaviors[i].type == Behavior::Platform) {
-            // Remove the platform from all ECS components
-            transforms.erase(transforms.begin() + i);
-            velocities.erase(velocities.begin() + i);
-            renderables.erase(renderables.begin() + i);
-            behaviors.erase(behaviors.begin() + i);
-        }
-    }
-}
-
-void createEntityBrick(std::vector<Transform2D>& transforms, std::vector<Velocity>& velocities,
-    std::vector<RenderComponent>& renderables, std::vector<Behavior>& behaviors,
-    float x, float y, float brickWidth, float brickHeight, const sf::Texture& textureBrick) {
-
-    // Create a brick
-    Transform2D brickTransform{ sf::Vector2f(x, y), sf::Vector2f(brickWidth, brickHeight) };
-    Velocity brickVelocity{ sf::Vector2f(0, 0) };
-    Behavior brickBehavior{ Behavior::Brick };
-    sf::Sprite* spriteBrick = new sf::Sprite();
-    spriteBrick->setTexture(textureBrick);
-    spriteBrick->setPosition(x, y);
-    spriteBrick->setScale(brickWidth / spriteBrick->getLocalBounds().width,
-        brickHeight / spriteBrick->getLocalBounds().height);
-    RenderComponent brickRender{ spriteBrick };
-
-    transforms.push_back(brickTransform);
-    velocities.push_back(brickVelocity);
-    renderables.push_back(brickRender);
-    behaviors.push_back(brickBehavior);
-
-}
-
-void removeBrick(std::vector<Transform2D>& transforms, std::vector<Velocity>& velocities,
-    std::vector<RenderComponent>& renderables, std::vector<Behavior>& behaviors, size_t brickIndex) {
-
-    // Remove the brick from all ECS components
-    transforms.erase(transforms.begin() + brickIndex);
-    velocities.erase(velocities.begin() + brickIndex);
-    renderables.erase(renderables.begin() + brickIndex);
-    behaviors.erase(behaviors.begin() + brickIndex);
-}
-
-void createEntitiesBricksGrid(std::vector<Transform2D>& transforms, std::vector<Velocity>& velocities,
-    std::vector<RenderComponent>& renderables, std::vector<Behavior>& behaviors,
-    float startX, float startY, int rows, int cols, float spacing, float brickWidth, float brickHeight, const sf::Texture& textureBrick) {
-
-    for (int row = 0; row < rows; ++row) {
-        for (int col = 0; col < cols; ++col) {
-            float x = startX + col * (100.0f + spacing); // Fixed width
-            float y = startY + row * (20.0f + spacing);  // Fixed height
-            createEntityBrick(transforms, velocities, renderables, behaviors, x, y, brickWidth, brickHeight, textureBrick);
-        }
-    }
-}
-
-// Function to check for collision between ball and brick
-bool checkCollision(const Transform2D& ball, const Transform2D& brick) {
-    return ball.position.x < brick.position.x + brick.size.x &&
-        ball.position.x + ball.size.x > brick.position.x &&
-        ball.position.y < brick.position.y + brick.size.y &&
-        ball.position.y + ball.size.y > brick.position.y;
-}
-
-void handleBallBrickCollision(std::vector<Transform2D>& transforms, std::vector<Velocity>& velocities,
-    std::vector<RenderComponent>& renderables, std::vector<Behavior>& behaviors, size_t ballIndex, size_t brickIndex) {
-
-    // Reverse ball velocity upon collision with a brick
-    Transform2D& ballTransform = transforms[ballIndex];
-    Velocity& ballVelocity = velocities[ballIndex];
-
-    Transform2D& brickTransform = transforms[brickIndex];
-
-    // Check which side of the brick the ball hit
-    float ballCenterX = ballTransform.position.x + ballTransform.size.x / 2;
-    float ballCenterY = ballTransform.position.y + ballTransform.size.y / 2;
-
-    float brickCenterX = brickTransform.position.x + brickTransform.size.x / 2;
-    float brickCenterY = brickTransform.position.y + brickTransform.size.y / 2;
-
-    float deltaX = ballCenterX - brickCenterX;
-    float deltaY = ballCenterY - brickCenterY;
-
-    float overlapX = ballTransform.size.x / 2 + brickTransform.size.x / 2 - std::abs(deltaX);
-    float overlapY = ballTransform.size.y / 2 + brickTransform.size.y / 2 - std::abs(deltaY);
-
-    if (overlapX > 0 && overlapY > 0) {
-        if (overlapX < overlapY) {
-            ballVelocity.speed.x = -ballVelocity.speed.x; // Ball hits the side
-        }
-        else {
-            ballVelocity.speed.y = -ballVelocity.speed.y; // Ball hits the top or bottom
-        }
-    }
-
-    // Mark the brick for removal (for now, just deactivate its rendering)
-    removeBrick(transforms, velocities, renderables, behaviors, brickIndex);
-}
+#include "Components.h"
+#include "Systems.h"
+#include "Entities.h"
 
 int main() {
     sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
     sf::RenderWindow window(desktop, "Casse-Brique", sf::Style::Fullscreen);
     sf::Clock clock;
+
+    // ECS Components
+    std::vector<Transform2D> transforms;
+    std::vector<Velocity> velocities;
+    std::vector<RenderComponent> renderables;
+    std::vector<Behavior> behaviors;
 
     // Load background texture
     sf::Texture texture, textureVictoire, textureBrick, textureBall, texturePlatform;
@@ -209,13 +27,6 @@ int main() {
     sf::Sprite sprite;
     sprite.setTexture(texture);
 
-    // ECS Components
-    std::vector<Transform2D> transforms;
-    std::vector<Velocity> velocities;
-    std::vector<RenderComponent> renderables;
-    std::vector<Behavior> behaviors;
-
-
     // Define brick dimensions based on window size
     float brickWidth = window.getSize().y * 0.095f;
     float brickHeight = window.getSize().x * 0.014f;
@@ -226,9 +37,8 @@ int main() {
 
 
     // Create a grid of bricks with fixed size
-    createEntitiesBricksGrid(transforms, velocities, renderables, behaviors, 100, 100, 10, 16, 10, brickWidth, brickHeight, textureBrick);
-    bool gameWon = false;
-    bool Won = false;
+    createEntitiesBricksGrid(transforms, velocities, renderables, behaviors, 100, 100, 10, 15, 14, brickWidth, brickHeight, textureBrick);
+    bool gameWon = true;
 
     while (window.isOpen()) {
         float deltaTime = clock.restart().asSeconds();
@@ -309,7 +119,6 @@ int main() {
             }
         }
 
-        gameWon = true;
         for (size_t i = 2; i < transforms.size(); ++i) {
             if (behaviors[i].type == Behavior::Brick) {
                 gameWon = false;  // There are still bricks left
@@ -320,7 +129,7 @@ int main() {
         // Check if the Enter key is pressed
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
             // Change background to victory texture
-            Won = true;
+            gameWon = true;
 
             // Remove all bricks from ECS components
             for (size_t i = 2; i < behaviors.size(); ++i) {
@@ -338,7 +147,7 @@ int main() {
         }
 
         // Change background if game is won
-        if (gameWon or Won) {
+        if (gameWon) {
             sprite.setTexture(textureVictoire); // Change background to victory texture
             removePlayer(transforms, velocities, renderables, behaviors);
         }
